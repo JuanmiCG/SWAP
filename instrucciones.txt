@@ -1,0 +1,6 @@
+git add . //Añade todos los ficheros del directorio
+git add archivo //Añade el archivo
+
+git commit -m "comentario" //Subir al espacio intermedio
+
+git push origin master //Sube los archivos añadidos anteriormente a tu repositorio
