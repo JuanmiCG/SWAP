@@ -1,0 +1,15 @@
+Ejercicio de clase Tema 1
+
+Buscar información sobre el tipo de contenido para el que los siguientes software de servidor web es más adecuado.
+
+Apache: Apache es usado principalmente para enviar páginas web estáticas y dinámicas en la World Wide Web aunque tembién es usado para muchas otras tareas donde el contenido necesita ser puesto a disposición en una forma segura y confiable. Es utilizado por páginas como Paypal, Ask, Apple y Adobe.
+
+Nginx: Nginx es un servidor web/proxy inverso ligero de alto rendimiento y un proxy para protocolos de correo electrónico (IMAP/POP3). Es utilizado por páginas como Wikipedia, Yahoo, Reddit, OneClickAds y WordPress.
+
+Cherokee: Cherokee es un servidor web multiplataforma. Su objetivo es ser rápido y completamente funcional, sin dejar de ser liviano comparado con otros servidores web.  Es utilizado por páginas como ChampionSelect y LolCounter.
+
+Lighttpd: es un servidor web diseñado para ser rápido, seguro, flexible, y fiel a los estándares. Está optimizado para entornos donde la velocidad es muy importante, por lo que consume menos CPU y memoria RAM que otros servidores y es apropiado para cualquier servidor que tenga problemas de carga. Es utilizado por páginas como Whatsapp.
+
+Node.js: Node.js es un entorno en tiempo de ejecución multiplataforma, de código abierto creado con el enfoque de ser útil en la creación de programas de red altamente escalables, como por ejemplo, servidores web. Es utilizado por páginas como OutBrain, Groupon y Flickr. 
+
+Tomcat: Tomcat es un contenedor web con soporte de servlets y JSP (JavaServerPages). Es usado como servidor web autónomo en entornos con alto nivel de tráfico y alta disponibilidad. Es utilizado por páginas como Toysrus.
