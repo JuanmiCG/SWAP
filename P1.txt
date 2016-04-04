@@ -1,0 +1,9 @@
+Server version: Apache/2.4.12 (Ubuntu)
+Server built:   Jul 24 2015 15:59:00
+root       1247  0.2  4.7 241284 22804 ?        Ss   15:45   0:00 /usr/sbin/apache2 -k start
+www-data   1255  0.0  1.5 241308  7600 ?        S    15:45   0:00 /usr/sbin/apache2 -k start
+www-data   1256  0.0  1.5 241308  7600 ?        S    15:45   0:00 /usr/sbin/apache2 -k start
+www-data   1257  0.0  1.5 241308  7600 ?        S    15:45   0:00 /usr/sbin/apache2 -k start
+www-data   1258  0.0  1.5 241308  7600 ?        S    15:45   0:00 /usr/sbin/apache2 -k start
+www-data   1259  0.0  1.5 241308  7600 ?        S    15:45   0:00 /usr/sbin/apache2 -k start
+juanmi     1393  0.0  0.4  12028  2176 tty1     S+   15:48   0:00 grep --color=auto apache
