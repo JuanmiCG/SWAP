@@ -1,0 +1,19 @@
+Para la práctica 2 cloné la máquina virtual utilizada en la práctica 1.
+Mediante el comando hostname cambié el nombre de la máquina y modifiqué los archivos hosts y hostname en /etc.
+
+Como indicaba la práctica comprobé el funcionamiento de la copia de archivos por ssh mediante el siguiente comando:
+tar czf - /var/www | ssh root@192.168.111.129 'cat > ~/zip'
+
+Como indicaba la práctica comprobé el clonado de una carpeta entre dos máquinas mediante el siguiente comando:
+rsync -avz -e ssh root@192.168.111.129:/var/www/ /var/www/
+
+Como indicaba la práctica configuré ssh para acceder sin que solicite contraseña mediante los siguientes comandos:
+ssh-keygen -t dsa
+ssh-copy-id -i .ssh/id_dsa.pub root@192.168.111.129
+
+Como indicaba la práctica establecí una tarea en cron que se ejecutara cada hora para mantener actualizado el contenido del directorio /var/www entre las dos máquinas
+
+
+rsync -avz --delete --exclude=**/stats --exclude=**/error --exclude=**/files/pictures -e "ssh -l root" root@192.168.111.129:/var/www/ /var/www/
+
+
