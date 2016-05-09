@@ -1,0 +1,25 @@
+Ejercicio de clase Tema 2.4
+
+Ejemplos de balanceadores software y hardware (productos comerciales):
+	Balanceadores software:
+		Nginx
+		Linux Virtual Servers
+		Haproxy
+		Pound
+		Pen
+
+	Balanceadores hardware:
+		Kemp: LoadMaster
+	
+Productos comerciales para servidores de aplicaciones: https://plumbr.eu/uncategorized/most-popular-java-ee-servers-2016-edition
+		Tomcat
+		JBoss/WildFly
+		Jetty
+		Glassfish
+		Weblogic
+	
+Productos comerciales para servidores de almacenamiento:
+		Dell
+		iWeb
+		WD
+		Lenovo
