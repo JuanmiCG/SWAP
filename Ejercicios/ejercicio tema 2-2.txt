@@ -1,0 +1,14 @@
+Ejercicio de clase Tema 2.2
+
+Buscar frameworks y librerías para diferentes lenguajes que permitan hacer aplicaciones altamente disponibles con relativa facilidad.
+
+Programación del lado del servidor:
+	PHP:
+		Laravel
+		Symfony2
+
+Programación del lado del cliente:
+	Javascript:
+		Angular.JS
+		Backbone.JS
+		Ember.JS
