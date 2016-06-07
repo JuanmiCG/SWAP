@@ -1,17 +1,19 @@
-Para la pr·ctica 2 clonÈ la m·quina virtual utilizada en la pr·ctica 1.
-Mediante el comando hostname cambiÈ el nombre de la m·quina y modifiquÈ los archivos hosts y hostname en /etc.
+Pr√°ctica 2: Clonar la informaci√≥n de un sitio web
 
-Como indicaba la pr·ctica comprobÈ el funcionamiento de la copia de archivos por ssh mediante el siguiente comando:
+Para la pr√°ctica 2 clon√© la m√°quina virtual utilizada en la pr√°ctica 1.
+Mediante el comando hostname cambi√© el nombre de la m√°quina y modifiqu√© los archivos hosts y hostname en /etc.
+
+Como indicaba la pr√°ctica comprob√© el funcionamiento de la copia de archivos por ssh mediante el siguiente comando:
 tar czf - /var/www | ssh root@192.168.111.129 'cat > ~/zip'
 
-Como indicaba la pr·ctica comprobÈ el clonado de una carpeta entre dos m·quinas mediante el siguiente comando:
+Como indicaba la pr√°ctica comprob√© el clonado de una carpeta entre dos m√°quinas mediante el siguiente comando:
 rsync -avz -e ssh root@192.168.111.129:/var/www/ /var/www/
 
-Como indicaba la pr·ctica configurÈ ssh para acceder sin que solicite contraseÒa mediante los siguientes comandos:
+Como indicaba la pr√°ctica configur√© ssh para acceder sin que solicite contrase√±a mediante los siguientes comandos:
 ssh-keygen -t dsa
 ssh-copy-id -i .ssh/id_dsa.pub root@192.168.111.129
 
-Como indicaba la pr·ctica establecÌ una tarea en cron que se ejecutara cada hora para mantener actualizado el contenido del directorio /var/www entre las dos m·quinas
+Como indicaba la pr√°ctica establec√≠ una tarea en cron que se ejecutara cada hora para mantener actualizado el contenido del directorio /var/www entre las dos m√°quinas
 
 
 rsync -avz --delete --exclude=**/stats --exclude=**/error --exclude=**/files/pictures -e "ssh -l root" root@192.168.111.129:/var/www/ /var/www/
