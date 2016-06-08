@@ -1,0 +1,41 @@
+--------------------------
+Práctica 6: Discos en RAID
+--------------------------
+
+Lo primero que vamos a hacer para montar un raid es añadir dos discos SCSI a nuestra máquina de 1GB.
+
+Después instalamos el programa mdadm para configurar el RAID mediante el comando:
+sudo apt-get install mdadm
+
+Después ejecutamos el comando sudo fdisk -l para comprobar que nuestro sistema ha
+reconocido los dos discos.
+
+El siguiente paso es crear el RAID 1 mediante el comando:
+sudo mdadm -C /dev/md0 --level=raid1 --raid-devices=2 /dev/sdb /dev/sdc
+
+Una vez creado debemos darle formato mediante el comando:
+sudo mkfs /dev/md0
+
+El siguiente paso es crear el directorio donde se montará el RAID y montarlo:
+sudo mkdir /dat
+sudo mount /dev/md0 /dat
+
+Para comprobar el estado del RAID ejecutamos el comando:
+sudo mdadm --detail /dev/md0
+
+Una vez hayamos comprobado que el RAID se ha montado debemos configurar el sistema para que lo monte al inicio.
+El primer paso es averiguar el UUID de nuestro RAID mediante el comando:
+ls -l /dev/disk/by-uuid
+
+El siguiente paso es añadir la siguiente línea al arhivo /etc/fstab:
+UUID=b93c8df9-3a77-437a-80f2-66ba26e29a3c	/dat	ext2	defaults	0	0
+
+Ya tendríamos el RAID configurado.
+Ahora simularemos un fallo en uno de los discos del RAID mediante el comando:
+sudo mdadm --manage --set-faulty /dev/md127 /dev/sdb
+
+Después extraemos el disco "dañado":
+sudo mdadm --manage --remove /dev/md127 /dev/sdb
+
+El último paso sería volver a añadir el disco:
+sudo mdadm --manage --add /dev/md127 /dev/sdb
