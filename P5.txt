@@ -1,0 +1,81 @@
+-----------------------------------------------
+Práctica 5: Replicación de bases de datos MySQL
+-----------------------------------------------
+
+
+Replicar una BD MySQL con mysqldump
+-----------------------------------
+
+Para empezar debemos crear una base de datos en la máquina maestra mediante los siguientes comandos:
+
+mysql -u root -p //Introducimos nuestra contraseña
+mysql> create database contactos;
+mysql> use contactos;
+mysql> create table datos(nombre varchar(100),tlf int);
+mysql> insert into datos(nombre,tlf) values ("pepe",95834987);
+
+El siguiente paso sería exportar la base de datos anterior:
+
+mysql -u root –p
+mysql> FLUSH TABLES WITH READ LOCK; //Bloquear la base de datos
+mysql> quit
+
+mysqldump contactos -u root -p > /root/contactos.sql
+
+mysql -u root –p
+mysql> UNLOCK TABLES; //Desbloquear la base de datos
+mysql> quit
+
+Ahora ejecutamos el siguiente comando desde la máquina esclava para copiar en ella el fichero con la base de datos
+exportada previamente.
+
+scp root@192.168.111.129:/root/contactos.sql /root/
+
+Ahora creamos una base de datos en la máquina esclava para volcar el contenido del fichero sql que copiamos previamente:
+
+mysql -u root –p
+mysql> CREATE DATABASE ‘contactos’;
+mysql> quit
+
+mysql -u root -p contactos < /root/contactos.sql
+
+Replicación de BD mediante una configuración maestro-esclavo
+------------------------------------------------------------
+
+Previamente modificamos los siguientes campos del fichero de configuración /etc/mysql/mysql.conf.d/mysql.cnf 
+de la máquina maestra y reiniciamos el servicio después.
+
+#bind-address 127.0.0.1
+log_error = /var/log/mysql/error.log
+server-id = 1
+log_bin = /var/log/mysql/bin.log
+
+Después modificamos los siguientes campos del fichero de configuración /etc/mysql/mysql.conf.d/mysql.cnf 
+de la máquina esclava y reiniciamos el servicio.
+
+#bind-address 127.0.0.1
+log_error = /var/log/mysql/error.log
+server-id = 2
+log_bin = /var/log/mysql/bin.log
+
+Ahora entramos en el mysql de la máquina maestra y ejecutamos los siguientes comandos
+para crear al usuario esclavo.
+
+mysql> CREATE USER esclavo IDENTIFIED BY 'esclavo';
+mysql> GRANT REPLICATION SLAVE ON *.* TO 'esclavo'@'%' IDENTIFIED BY 'esclavo';
+mysql> FLUSH PRIVILEGES;
+mysql> FLUSH TABLES;
+mysql> FLUSH TABLES WITH READ LOCK;
+mysql> SHOW MASTER STATUS; //Este comando nos mostrará información útil para la configuración del mysql de la máquina esclava.
+
+Nos vamos ahora a la máquina esclava y ejecutamos el siguiente comando para configurar el mysql de la máquina esclava:
+IMPORTANTE FIJARSE EN LOS PARÁMETROS MASTER_LOG_FILE Y MASTER_LOG_POS
+
+mysql> CHANGE MASTER TO MASTER_HOST='192.168.111.129', MASTER_USER='esclavo', MASTER_PASSWORD='esclavo', 
+MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=501, MASTER_PORT=3306;
+
+Por último arrancamos al "esclavo" y desbloqueamos las tablas:
+mysql> START SLAVE;
+mysql> UNLOCK TABLES;
+
+Ejecutamos el comando mysql> SHOW SLAVE STATUS\G y si el valor de la variable “Seconds_Behind_Master” es distinto de “null” todo estará funcionando perfectamente.
