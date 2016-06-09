@@ -1,0 +1,43 @@
+------------------------------------------------------
+Práctica 4: Comprobar el rendimiento de servidores web
+------------------------------------------------------
+
+Para la realización de la práctica he creado un script que ejecuta los comandos necesarios
+para conocer la capacidad de rendimiento de nuestros servidores. Importante ejecutar el script desde la terminal con sudo ya que siege
+requiere de superusuario para crear el archivo siege.log de donde sacaremos la información.
+El script es el siguiente:
+
+
+#!/bin/bash
+
+  for i in `seq 1 10`;
+  do
+		ab -n 1000 -c 5 http://192.168.111.129/index.html >> /home/juanmi/Escritorio/P4-SWAP/maquina1-ab.txt
+		ab -n 1000 -c 5 http://192.168.111.161/index.html >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-nginx.txt
+		ab -n 1000 -c 5 http://192.168.111.161:8080/index.html >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-haproxy.txt
+
+		siege -b -t6S -v http://192.168.111.129/index.html
+		cat /var/log/siege.log >> /home/juanmi/Escritorio/P4-SWAP/maquina1-siege.csv
+		rm /var/log/siege.log
+
+		siege -b -t6S -v http://192.168.111.161/index.html
+		cat /var/log/siege.log >> /home/juanmi/Escritorio/P4-SWAP/balanceador-siege-nginx.csv
+		rm /var/log/siege.log
+
+		siege -b -t6S -v http://192.168.111.161:8080/index.html
+		cat /var/log/siege.log >> /home/juanmi/Escritorio/P4-SWAP/balanceador-siege-haproxy.csv
+		rm /var/log/siege.log
+  done  
+
+
+	cat /home/juanmi/Escritorio/P4-SWAP/maquina1-ab.txt | grep "Time taken for tests" >> /home/juanmi/Escritorio/P4-SWAP/maquina1-ab.csv
+	cat /home/juanmi/Escritorio/P4-SWAP/maquina1-ab.txt | grep "Failed requests" >> /home/juanmi/Escritorio/P4-SWAP/maquina1-ab.csv
+	cat /home/juanmi/Escritorio/P4-SWAP/maquina1-ab.txt | grep "Requests per second" >> /home/juanmi/Escritorio/P4-SWAP/maquina1-ab.csv
+ 
+	cat /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-nginx.txt | grep "Time taken for tests" >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-nginx.csv
+	cat /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-nginx.txt | grep "Failed requests" >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-nginx.csv
+	cat /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-nginx.txt | grep "Requests per second" >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-nginx.csv
+
+	cat /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-haproxy.txt | grep "Time taken for tests" >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-haproxy.csv
+	cat /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-haproxy.txt | grep "Failed requests" >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-haproxy.csv
+	cat /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-haproxy.txt | grep "Requests per second" >> /home/juanmi/Escritorio/P4-SWAP/balanceador-ab-haproxy.csv
